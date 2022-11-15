@@ -1,0 +1,38 @@
+/**
+Object for player
+*/
+class Player{
+	field int score;
+	field Random random;
+
+	constructor Player new(int rand){
+		let random = Random.new(rand);
+		let score = 0;
+
+		return this;
+	}	
+
+	method int blackjack(){
+		var int val;
+		
+		let val = random.randRange(12)+1;
+
+		return val;
+	}
+
+	method int getScore(){
+		return score;
+	}
+
+	method void changeRandom(int c){
+
+		do random.addCallTime(c);
+		return;
+	}
+
+	method void dispose(){
+		do random.dispose();
+		do Memory.deAlloc(this);
+		return;
+	}
+}

@@ -1,0 +1,151 @@
+class Main{
+	
+	function void main(){
+		var Random random;
+		var Player user; //controlled by user
+		var Player cpu; //controlled by computer
+		var int userScore; //user's score, updated every turn
+		var int cpuScore; //cpu's score, updated every turn
+		var int card;
+		var char command; // store the command user enter
+		var boolean userTurn;
+		var boolean gameEnd;
+		var boolean cpuWin;
+		var boolean userWin;
+		var boolean draw;
+
+		//initialization
+		let random = Random.new(534);//give a seed
+		let user = Player.new(random.rand());
+		let cpu = Player.new(random.rand());
+		let userScore = user.getScore();
+		let cpuScore = user.getScore();
+		let gameEnd = false;
+		let userTurn = true;
+		let cpuWin = false;
+		let userWin = false;
+		let draw = false;
+
+		do Output.printString("1st to 21 game start!");
+		do Output.println();
+
+		while(~gameEnd){
+			if(userTurn){
+				do Output.printString("Your current score is : ");
+		 		do Output.printInt(userScore);
+				do Output.println();
+				if(userScore>21){
+					let cpuWin = true;
+					let gameEnd = true;
+				}
+				if(~gameEnd){
+					do Output.printString("Draw a card?(y or n): ");
+					do Output.println();
+					let command = Keyboard.readChar();
+				}
+			}
+
+			if(~gameEnd){
+
+				if(command = 89){
+					let card = user.blackjack();
+					do user.changeRandom(card);
+					let userScore = userScore + card;
+					do Output.printString("Card Drawn : ");
+					do Output.printInt(card);
+					do Output.println();
+				}
+			
+				if(command = 78){
+					let userTurn = false;
+					let command = 0;
+					do Output.moveCursor(0,0);
+					do Screen.clearScreen();
+				}
+			}
+
+			if(~userTurn){
+				do Output.printString(" CPU's score is : ");
+		 		do Output.printInt(cpuScore);
+				do Output.println();
+				if(cpuScore>21){
+					do Output.moveCursor(0,0);
+					do Screen.clearScreen();
+					do Output.printString("Your current score is : ");
+					do Output.printInt(userScore);
+					do Output.println();
+					do Output.printString(" CPU's score is : ");
+					do Output.printInt(cpuScore);
+					do Output.println();
+					let gameEnd = true;
+					let userWin = true;
+				}
+				else{
+					if(cpuScore>userScore){
+						do Output.moveCursor(0,0);
+						do Screen.clearScreen();
+						do Output.printString("Your current score is : ");
+						do Output.printInt(userScore);
+						do Output.println();
+						do Output.printString(" CPU's score is : ");
+						do Output.printInt(cpuScore);
+						do Output.println();
+						let gameEnd = true;
+						let cpuWin = true;
+					}
+				}
+
+				if(~gameEnd){
+					if(cpuScore=userScore){
+						if(cpuScore>17){
+							do Output.moveCursor(0,0);
+							do Screen.clearScreen();
+							do Output.printString("Your current score is : ");
+							do Output.printInt(userScore);
+							do Output.println();
+							do Output.printString(" CPU's score is : ");
+							do Output.printInt(cpuScore);
+							do Output.println();
+							let gameEnd = true;
+							let draw = true;
+						}
+						else{
+							do cpu.changeRandom(card);
+							let card = cpu.blackjack();
+							let cpuScore = cpuScore + card;
+							do Output.printString("Card Drawn : ");
+							do Output.printInt(card);
+							do Output.println();
+						}
+					}
+					else{
+						if(cpuScore<userScore){
+							do cpu.changeRandom(card);
+							let card = cpu.blackjack();
+							let cpuScore = cpuScore + card;
+							do Output.printString("Card Drawn : ");
+							do Output.printInt(card);
+							do Output.println();
+						}
+					}
+				}
+			}
+
+		}
+		//see which player is the winner
+		if(cpuWin){
+			do Output.printString("CPU wins!");
+		}
+		if(userWin){
+			do Output.printString("You win!");
+		}
+		if(userScore=cpuScore){
+			do Output.printString("Draw!");
+		}
+
+		//clear memory
+		do user.dispose();
+		do cpu.dispose();
+		return;
+	}
+}
