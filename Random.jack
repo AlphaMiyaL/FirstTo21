@@ -67,7 +67,7 @@ class Random {
         return temp;
     }
 
-    //dispose the Oject
+    //dispose the Object
     method void dispose(){
         do Memory.deAlloc(this);
         return;
